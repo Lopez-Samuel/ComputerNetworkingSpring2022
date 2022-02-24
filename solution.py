@@ -6,11 +6,11 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
     # Choose a mail server (e.g. Google mail server) if you want to verify the script beyond GradeScope
     # Create socket called clientSocket and establish a TCP connection with mailserver and port
-
     # Fill in start
     clientSocket = socket(AF_INET, SOCK_STREAM)
     #clientSocket.connect(("smtp.aol.com", 25))
-    clientSocket.connect((mailserver, port))
+    address = (mailserver, port)
+    clientSocket.connect(address)
     # Fill in end
 
     recv = clientSocket.recv(1024).decode()
