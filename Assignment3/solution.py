@@ -1,4 +1,5 @@
 from socket import *
+import base64
 
 def smtp_client(port=1025, mailserver='127.0.0.1'):
     msg = "\r\n My message"
@@ -9,7 +10,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Fill in start
     clientSocket = socket(AF_INET, SOCK_STREAM)
     #clientSocket.connect(("smtp.aol.com", 25))
-    clientSocket.connect((mailserver,port))
+    clientSocket.connect(("smtp.gmail.com",587))
     # Fill in end
 
     recv = clientSocket.recv(1024).decode()
@@ -24,6 +25,36 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     #print(recv1)
     #if recv1[:3] != '250':
         #print('250 reply not received from server.')
+
+    tlsCommand = 'STARTTLS \r\n'
+    clientSocket.send(tlsCommand.encode())
+    recv8 = clientSocket.recv(1024).decode()
+    print("Message after STARTTLS command:" + recv8)
+    if recv8[:3] != '220':
+        print('220 reply not received from server.')
+        
+    # Send AUTH command and print server response.
+    print("Sending AUTH Command")
+    authMsg = "AUTH PLAIN\r\n"
+    clientSocket.send(authMsg.encode())
+    recv_auth = clientSocket.recv(1024)
+    print(recv_auth.decode())
+    if recv_auth[:3] != '250':
+        print('250 reply not received from server.')
+
+    #Info for username and password
+    username = "sl4506@nyu.edu"
+    password = " aVn9tiquity"
+
+    # AUTH with base64 encoded user name password
+    auth = username+"\0"+password
+    base64_str = ('%s\0%s' % (username, password)).encode()
+    auth = base64.b64encode(base64_str)
+    clientSocket.send(auth)
+    recv_user = clientSocket.recv(1024)
+    print(recv_user.decode())
+    if recv_user[:3] != '250':
+        print('250 reply not received from server.')
 
     # Send MAIL FROM command and print server response.
     # Fill in start
