@@ -130,28 +130,29 @@ def get_route(hostname):
                 if types == 11:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    print(" %d rtt=%.0f ms %s" % (ttl, (timeReceived - t)*1000, destAddr))
+                    print(" %d rtt=%.0f ms %s %s" % (ttl, (timeReceived - t)*1000, destAddr, hostname))
                     #Fill in start
                     #You should add your responses to your lists here
-                    tracelist1.append(" %d rtt=%.0f ms %s" % (ttl, (timeReceived - t)*1000, destAddr))
+                    tracelist1.append(" %d ,rtt=%.0f ms, %s, %s" % (ttl, (timeReceived - t)*1000, destAddr, hostname))
                     tracelist2.append(tracelist1)
                     #Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    print(" %d rtt=%.0f ms %s" % (ttl, (timeReceived - t)*1000, destAddr))
+                    print(" %d rtt=%.0f ms %s %s" % (ttl, (timeReceived - t)*1000, destAddr, hostname))
                     #Fill in start
                     #You should add your responses to your lists here
-                    tracelist1.append(" %d rtt=%.0f ms %s" %(ttl, (timeReceived - t)*1000, destAddr))
+                    tracelist1.append(" %d, rtt=%.0f ms %s, %s" %(ttl, (timeReceived - t)*1000, destAddr, hostname))
                     tracelist2.append(tracelist1)
                     #Fill in end
                 elif types == 0:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    print(" %d rtt=%.0f ms %s" % (ttl, (timeReceived - timeSent)*1000, destAddr))
+                    print(" %d rtt=%.0f ms %s %s" % (ttl, (timeReceived - timeSent)*1000, destAddr, hostname))
                     #Fill in start
                     #You should add your responses to your lists here and return your list if your destination IP is met
-                    tracelist1.append(" %d rtt=%.0f ms %s" %(ttl, (timeReceived - t)*1000, destAddr))
+                    tracelist1.append(" %d. rtt=%.0f ms, %s, %s" % (
+                        ttl, (timeReceived - timeSent)*1000, destAddr, hostname))
                     tracelist2.append(tracelist1)
                     #Fill in end
                 else:
